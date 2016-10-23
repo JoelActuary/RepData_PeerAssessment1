@@ -53,8 +53,23 @@ median_daytotal <- median(day_totals$total_steps)
 paste("The mean total steps per day is ", round(mean_daytotal,0),", and the median total steps per day is ", round(median_daytotal,0),".", sep = "")
 ```
 
+## Part 3: What is the average daily pattern?
+This section completes the following (see code below):
 
-## Part 3: Imputing Missing Values
+- Produces a time series plot of the average steps by time interval
+- Reports the time interval that has the highest step count on average
+
+```{r echo=TRUE}
+interval_avg <- data_df %>%
+        group_by(interval) %>%
+        summarize(avg_steps = mean(steps, na.rm = TRUE))
+
+g <- ggplot(interval_avg, aes(interval,avg_steps))
+g + geom_line(color = "navy") + labs(y = "Average number of steps")
+
+```
+
+## Part 4: Imputing Missing Values
 The section completes the following:
 
 - Reports the number of missing values in the dataset
@@ -96,7 +111,7 @@ median_daytotal <- median(day_totals$total_steps)
 paste("The mean total steps per day is now ", round(mean_daytotal,0),", and the median total steps per day is now ", round(median_daytotal,0),".", sep = "")
 ```
 
-## Part 4: Activity patterns between weekdays and weekends
+## Part 5: Activity patterns between weekdays and weekends
 This section completes the following (see code below):
 
 - Adds a weekday/weekend indicator to the modified "imputed" dataset

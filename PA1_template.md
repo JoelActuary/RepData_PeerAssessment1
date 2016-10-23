@@ -80,8 +80,25 @@ paste("The mean total steps per day is ", round(mean_daytotal,0),", and the medi
 ## [1] "The mean total steps per day is 9354, and the median total steps per day is 10395."
 ```
 
+## Part 3: What is the average daily pattern?
+This section completes the following (see code below):
 
-## Part 3: Imputing Missing Values
+- Produces a time series plot of the average steps by time interval
+- Reports the time interval that has the highest step count on average
+
+
+```r
+interval_avg <- data_df %>%
+        group_by(interval) %>%
+        summarize(avg_steps = mean(steps, na.rm = TRUE))
+
+g <- ggplot(interval_avg, aes(interval,avg_steps))
+g + geom_line(color = "navy") + labs(y = "Average number of steps")
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
+
+## Part 4: Imputing Missing Values
 The section completes the following:
 
 - Reports the number of missing values in the dataset
@@ -122,7 +139,7 @@ g <- ggplot(day_totals, aes(total_steps))
 g + geom_histogram(bins = 50, fill = "dark red") + labs(x = "Daily Step Total")
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png)
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png)
 
 ####The below code prints the mean and median total steps per day, for the "imputed" dataset. 
 
@@ -136,7 +153,7 @@ paste("The mean total steps per day is now ", round(mean_daytotal,0),", and the 
 ## [1] "The mean total steps per day is now 10766, and the median total steps per day is now 10766."
 ```
 
-## Part 4: Activity patterns between weekdays and weekends
+## Part 5: Activity patterns between weekdays and weekends
 This section completes the following (see code below):
 
 - Adds a weekday/weekend indicator to the modified "imputed" dataset
@@ -154,7 +171,7 @@ g <- ggplot(interval_avg, aes(interval,avg_steps))
 g + geom_line(color = "navy") + facet_wrap(~weekend,ncol = 1) + labs(y = "Average number of steps")
 ```
 
-![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png)
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png)
 
 
 ####The below code determines the intervals with highest average step count for weekdays vs weekends. 
