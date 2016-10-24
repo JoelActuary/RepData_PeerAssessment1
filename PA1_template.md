@@ -98,6 +98,23 @@ g + geom_line(color = "navy") + labs(y = "Average number of steps")
 
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
 
+####The below code determines the intervals with highest average step count. 
+
+```r
+highest <- data_df %>%
+        group_by(interval) %>%
+        summarize(avg_steps = mean(steps, na.rm = TRUE)) %>%
+        summarize(highest = max(avg_steps))
+
+high_int <- interval_avg[interval_avg$avg_steps %in% highest$highest,]
+
+paste("The highest average step amount is ", round(high_int[1,2],0),", and occurs in interval ", high_int[1,1],".", sep = "")
+```
+
+```
+## [1] "The highest average step amount is 206, and occurs in interval 835."
+```
+
 ## Part 4: Imputing Missing Values
 The section completes the following:
 
@@ -139,7 +156,7 @@ g <- ggplot(day_totals, aes(total_steps))
 g + geom_histogram(bins = 50, fill = "dark red") + labs(x = "Daily Step Total")
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png)
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png)
 
 ####The below code prints the mean and median total steps per day, for the "imputed" dataset. 
 
@@ -171,7 +188,7 @@ g <- ggplot(interval_avg, aes(interval,avg_steps))
 g + geom_line(color = "navy") + facet_wrap(~weekend,ncol = 1) + labs(y = "Average number of steps")
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png)
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10-1.png)
 
 
 ####The below code determines the intervals with highest average step count for weekdays vs weekends. 
@@ -184,15 +201,19 @@ highest <- data_fill %>%
         group_by(weekend) %>%
         summarize(highest = max(avg_steps))
 
-interval_avg[interval_avg$avg_steps %in% highest$highest,]
+high_int <- interval_avg[interval_avg$avg_steps %in% highest$highest,]
+
+paste("The highest average step amount per interval on weekdays is ", round(high_int[1,3],0),", and occurs in interval ", high_int[1,2],".", sep = "")
 ```
 
 ```
-## Source: local data frame [2 x 3]
-## Groups: weekend [2]
-## 
-##   weekend interval avg_steps
-##     <chr>    <int>     <dbl>
-## 1 weekday      835  230.3782
-## 2 weekend      915  166.6392
+## [1] "The highest average step amount per interval on weekdays is 230, and occurs in interval 835."
+```
+
+```r
+paste("The highest average step amount per interval on weekends is ", round(high_int[2,3],0),", and occurs in interval ", high_int[2,2],".", sep = "")
+```
+
+```
+## [1] "The highest average step amount per interval on weekends is 167, and occurs in interval 915."
 ```

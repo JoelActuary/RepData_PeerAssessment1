@@ -69,6 +69,18 @@ g + geom_line(color = "navy") + labs(y = "Average number of steps")
 
 ```
 
+####The below code determines the intervals with highest average step count. 
+```{r echo=TRUE}
+highest <- data_df %>%
+        group_by(interval) %>%
+        summarize(avg_steps = mean(steps, na.rm = TRUE)) %>%
+        summarize(highest = max(avg_steps))
+
+high_int <- interval_avg[interval_avg$avg_steps %in% highest$highest,]
+
+paste("The highest average step amount is ", round(high_int[1,2],0),", and occurs in interval ", high_int[1,1],".", sep = "")
+```
+
 ## Part 4: Imputing Missing Values
 The section completes the following:
 
@@ -139,5 +151,8 @@ highest <- data_fill %>%
         group_by(weekend) %>%
         summarize(highest = max(avg_steps))
 
-interval_avg[interval_avg$avg_steps %in% highest$highest,]
+high_int <- interval_avg[interval_avg$avg_steps %in% highest$highest,]
+
+paste("The highest average step amount per interval on weekdays is ", round(high_int[1,3],0),", and occurs in interval ", high_int[1,2],".", sep = "")
+paste("The highest average step amount per interval on weekends is ", round(high_int[2,3],0),", and occurs in interval ", high_int[2,2],".", sep = "")
 ```
